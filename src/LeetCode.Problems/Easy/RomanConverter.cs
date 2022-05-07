@@ -8,7 +8,7 @@ namespace LeetCode.Problems.Easy
 {
     public class RomanConverter
     {
-        public static readonly Dictionary<char, int> ROMAN_CHARACTER = new Dictionary<char, int>
+        public static readonly Dictionary<char, int> ROMAN_CHARACTERS = new Dictionary<char, int>
         {
             {'I',1},
             {'V',5},
@@ -23,24 +23,16 @@ namespace LeetCode.Problems.Easy
             if (string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException("input");
             int result = 0;
             var lastIndex = input.Length - 1;
-            
-            if (!ROMAN_CHARACTER.TryGetValue(input[lastIndex], out int current)) throw new ArgumentException("Invalid Input");
-           
+
+            if (!ROMAN_CHARACTERS.TryGetValue(input[lastIndex], out int current)) throw new ArgumentException("Invalid Input");
+
             var previous = current;
             for (int i = lastIndex; i >= 0; i--)
             {
+                if (!ROMAN_CHARACTERS.TryGetValue(input[i], out current)) throw new ArgumentException("Invalid Input");
 
-                if (!ROMAN_CHARACTER.TryGetValue(input[i], out current)) throw new ArgumentException("Invalid Input");
-
-                if (current >= previous)
-                {
-                    result += current;
-                }
-                else
-                {
-                    result -= current;
-                }
-
+                if (current >= previous) result += current;
+                else result -= current;
                 previous = current;
             }
 
